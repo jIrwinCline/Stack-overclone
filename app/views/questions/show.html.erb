@@ -1,0 +1,25 @@
+<h1><%= @question.title %></h1>
+<h3><%= @question.text_body %></h3>
+
+<% if @question.responses.any? %>
+  <h4>Here are the responses for this question:</h4>
+
+  <% @question.responses.each do |response| %>
+    <ul>
+      <li>
+        <%= link_to response.name, question_response_path(@question, response) %>
+      </li>
+    </ul>
+  <% end %>
+<% else %>
+  <p>No responses are listed for this question.</p>
+<% end %>
+
+<p><%= link_to "Add a response", new_question_response_path(@question) %></p>
+
+<p><%= link_to "Edit", edit_question_path(@question) %></p>
+<p><%= link_to "Delete question", question_path(@question),
+                        :data => {:confirm => "Are you sure?",
+                                       :method => "delete"} %></p>
+
+<p><%= link_to "Return to questions", questions_path %></p>
