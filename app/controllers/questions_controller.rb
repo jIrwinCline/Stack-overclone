@@ -7,11 +7,15 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @user_id = current_user.id
     render :new
   end
 
   def create
+    question_params[:user_id] = current_user.id
+    byebug
     @question = Question.new(question_params)
+    @question.user_id = current_user.id
     if @question.save
       flash[:notice] = "Question successfully posted!"
       redirect_to questions_path
@@ -50,6 +54,7 @@ class QuestionsController < ApplicationController
 
   private
   def question_params
-    params.require(:question).permit(:user_id, :title, :text_body)
+
+    params.require(:question).permit(:title, :text_body)
   end
 end
